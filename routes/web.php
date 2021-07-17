@@ -30,5 +30,5 @@ Route::get('/mensagem-teste', function ()  {
     // Mail::to('jr.maiafs1@gmail.com')->send(new MensagemTesteMail);
     // return 'Email enviado com sucesso';
 
-    return new MensagemTesteMail;
+    return new MensagemTesteMail();
 });
