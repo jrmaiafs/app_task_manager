@@ -34,6 +34,6 @@ class NovaTarefaMail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.nova-tarefa')->subject('Nova Tarefa Criada');
+        return $this->markdown('emails.nova-tarefa')->subject('Nova tarefa criada');
     }
 }
