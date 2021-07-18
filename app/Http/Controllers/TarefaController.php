@@ -6,6 +6,8 @@ use App\Models\Tarefa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use function GuzzleHttp\Promise\all;
+
 class TarefaController extends Controller
 {
      /**
@@ -35,7 +37,7 @@ class TarefaController extends Controller
      */
     public function create()
     {
-        //
+        return view('tarefa.create');
     }
 
     /**
@@ -46,7 +48,23 @@ class TarefaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $regras = [
+            'tarefa' => 'required|min:5|max:200',
+            'data_limite_conclusao' => 'required'
+        ];
+
+        $feedback = [
+            'tarefa.required' => 'O campo Tarefa precisa ser preenchido',
+            'tarefa.min' => 'O campo Tarefa deve ter no mínimo 5 caracteres',
+            'tarefa.max' => 'O campo Tarefa deve ter no máximo 200 caracteres',
+            'data_limite_conclusao.required' => 'O campo Data dever ser preenchido'
+        ];
+
+        $request->validate($regras, $feedback);
+
+        $tarefaId = Tarefa::create($request->all());
+
+        return redirect()->route('tarefa.show', ['tarefa' => $tarefaId]);
     }
 
     /**
@@ -57,7 +75,7 @@ class TarefaController extends Controller
      */
     public function show(Tarefa $tarefa)
     {
-        //
+        dd($tarefa->getAttributes());
     }
 
     /**
