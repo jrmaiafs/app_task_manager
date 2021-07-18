@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\NovaTarefaMail;
 use App\Models\Tarefa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 use function GuzzleHttp\Promise\all;
 
@@ -62,9 +64,13 @@ class TarefaController extends Controller
 
         $request->validate($regras, $feedback);
 
-        $tarefaId = Tarefa::create($request->all());
+        $tarefa = Tarefa::create($request->all());
 
-        return redirect()->route('tarefa.show', ['tarefa' => $tarefaId]);
+        $destinatario = auth()->user()->email;
+
+        Mail::to($destinatario)->send(new NovaTarefaMail($tarefa));
+
+        return redirect()->route('tarefa.show', ['tarefa' => $tarefa->id]);
     }
 
     /**
@@ -75,7 +81,7 @@ class TarefaController extends Controller
      */
     public function show(Tarefa $tarefa)
     {
-        dd($tarefa->getAttributes());
+        return view('tarefa.show', ['tarefa' => $tarefa]);
     }
 
     /**

@@ -2,7 +2,7 @@
 <td class="header">
 <a href="{{ $url }}" style="display: inline-block;">
 @if (trim($slot) === 'Task Manager')
-<img src="http://localhost:8000/img/logo.png" class="logo" alt="Laravel Logo">
+<img src="https://media.graphcms.com/output=format:jpg/jYGIz310RKuP9KpXjkMV" class="logo" alt="Task Maneger">
 @else
 {{ $slot }}
 @endif
