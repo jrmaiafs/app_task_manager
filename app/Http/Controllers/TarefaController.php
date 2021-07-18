@@ -29,7 +29,9 @@ class TarefaController extends Controller
      */
     public function index()
     {
-       //
+        $user_id = auth()->user()->id;
+        $tarefas = Tarefa::where('user_id', $user_id)->get();
+        return view('tarefa.index', ['tarefas' => $tarefas]);
     }
 
     /**
@@ -71,7 +73,7 @@ class TarefaController extends Controller
 
         $destinatario = auth()->user()->email;
 
-        Mail::to($destinatario)->send(new NovaTarefaMail($tarefa));
+        // Mail::to($destinatario)->send(new NovaTarefaMail($tarefa));
 
         return redirect()->route('tarefa.show', ['tarefa' => $tarefa->id]);
     }
