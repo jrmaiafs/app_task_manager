@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\NovaTarefaMail;
 use App\Models\Tarefa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+
+use function GuzzleHttp\Promise\all;
 
 class TarefaController extends Controller
 {
@@ -25,7 +29,9 @@ class TarefaController extends Controller
      */
     public function index()
     {
-       //
+        $user_id = auth()->user()->id;
+        $tarefas = Tarefa::where('user_id', $user_id)->paginate(2);
+        return view('tarefa.index', ['tarefas' => $tarefas]);
     }
 
     /**
@@ -35,7 +41,7 @@ class TarefaController extends Controller
      */
     public function create()
     {
-        //
+        return view('tarefa.create');
     }
 
     /**
@@ -46,7 +52,30 @@ class TarefaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $regras = [
+            'tarefa' => 'required|min:5|max:200',
+            'data_limite_conclusao' => 'required'
+        ];
+
+        $feedback = [
+            'tarefa.required' => 'O campo Tarefa precisa ser preenchido',
+            'tarefa.min' => 'O campo Tarefa deve ter no mínimo 5 caracteres',
+            'tarefa.max' => 'O campo Tarefa deve ter no máximo 200 caracteres',
+            'data_limite_conclusao.required' => 'O campo Data dever ser preenchido'
+        ];
+
+        $request->validate($regras, $feedback);
+
+        $dados = $request->all('tarefa', 'data_limite_conclusao');
+        $dados['user_id'] = auth()->user()->id;
+
+        $tarefa = Tarefa::create($dados);
+
+        $destinatario = auth()->user()->email;
+
+        // Mail::to($destinatario)->send(new NovaTarefaMail($tarefa));
+
+        return redirect()->route('tarefa.show', ['tarefa' => $tarefa->id]);
     }
 
     /**
@@ -57,7 +86,7 @@ class TarefaController extends Controller
      */
     public function show(Tarefa $tarefa)
     {
-        //
+        return view('tarefa.show', ['tarefa' => $tarefa]);
     }
 
     /**
