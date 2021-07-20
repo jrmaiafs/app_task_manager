@@ -15,6 +15,7 @@
                                 <a href="{{route('tarefa.create')}}" class="float-right mr-3">Novo</a>
                                 <a href="{{route('tarefa.exportacao', ['type' => 'xlsx'])}}" class="float-right mr-2">XLSX</a>
                                 <a href="{{route('tarefa.exportacao', ['type' => 'csv'])}}" class="float-right mr-2">CSV</a>
+                                <a href="{{route('tarefa.exportacao', ['type' => 'pdf'])}}" class="float-right mr-2">PDF </a>
                             </div>
                         </div>
                     </div>

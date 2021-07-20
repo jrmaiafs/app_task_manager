@@ -158,16 +158,9 @@ class TarefaController extends Controller
     }
 
     public function exportacao($type) {
-
-        $nome_arquivo = 'lista_de_tarefas';
-        if ($type == 'xlsx') {
-            $nome_arquivo .= '.'.$type;
-        } else if ($type == 'csv') {
-            $nome_arquivo .= '.'.$type;
-        } else {
-            return redirect()->route('tarefa.index');
+        if (in_array($type, ['xlsx', 'csv', 'pdf'])) {
+            return Excel::download(new TarefasExport, 'lista_de_tarefas.'.$type);
         }
-
-        return Excel::download(new TarefasExport, $nome_arquivo);
+        return redirect()->route('tarefa.index');
     }
 }
