@@ -16,6 +16,7 @@
                                 <a href="{{route('tarefa.exportacao', ['type' => 'xlsx'])}}" class="float-right mr-2">XLSX</a>
                                 <a href="{{route('tarefa.exportacao', ['type' => 'csv'])}}" class="float-right mr-2">CSV</a>
                                 <a href="{{route('tarefa.exportacao', ['type' => 'pdf'])}}" class="float-right mr-2">PDF </a>
+                                <a href="{{route('tarefa.exportar')}}" class="float-right mr-2">PDF 2</a>
                             </div>
                         </div>
                     </div>
